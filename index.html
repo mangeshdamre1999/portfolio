@@ -512,6 +512,69 @@
   </div>
 </section>
 
+<!-- ═══════════════ VIDEO SHOWCASE (TV Window) ═══════════════ -->
+<section class="py-24 px-6 grid-bg" style="background: var(--bg-surface);">
+  <div class="max-w-5xl mx-auto reveal">
+    <p class="font-mono text-xs mb-3 tracking-widest uppercase text-center" style="color: var(--accent-cyan);">// watch in action</p>
+    <h2 class="text-4xl md:text-5xl font-bold mb-16 text-center">Featured Demo</h2>
+
+    <!-- TV Frame -->
+    <div class="max-w-4xl mx-auto">
+      <div class="relative rounded-3xl overflow-hidden" style="background: linear-gradient(145deg, #1a1a2e, #0d0d1a); border: 2px solid rgba(0, 240, 255, 0.15); box-shadow: 0 0 60px rgba(0, 240, 255, 0.08), inset 0 0 60px rgba(0, 0, 0, 0.5);">
+
+        <!-- Top bar (TV header) -->
+        <div class="flex items-center justify-between px-6 py-3" style="background: rgba(0, 240, 255, 0.04); border-bottom: 1px solid rgba(0, 240, 255, 0.08);">
+          <div class="flex items-center gap-3">
+            <div class="flex gap-2">
+              <div class="w-3 h-3 rounded-full" style="background: #ef4444; box-shadow: 0 0 6px #ef4444;"></div>
+              <div class="w-3 h-3 rounded-full" style="background: #eab308; box-shadow: 0 0 6px #eab308;"></div>
+              <div class="w-3 h-3 rounded-full" style="background: #22c55e; box-shadow: 0 0 6px #22c55e;"></div>
+            </div>
+            <span class="font-mono text-xs hidden sm:inline" style="color: var(--text-muted);">▶ mangesh_demo.mp4</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="w-2 h-2 rounded-full animate-pulse" style="background: #ef4444; box-shadow: 0 0 8px #ef4444;"></div>
+            <span class="font-mono text-xs" style="color: var(--text-muted);">LIVE</span>
+          </div>
+        </div>
+
+        <!-- Auto-playing video (muted, loops 4:54–5:54) -->
+        <div class="relative w-full" style="padding-bottom: 56.25%;" id="tv-screen">
+          <div id="yt-player" class="absolute inset-0 w-full h-full"></div>
+        </div>
+
+        <!-- Mute / Unmute + Replay controls -->
+        <div id="video-controls" class="flex items-center justify-center gap-4 px-6 py-3" style="background: rgba(0, 240, 255, 0.03); border-top: 1px solid rgba(0, 240, 255, 0.06);">
+          <button id="mute-btn" onclick="toggleMute()" class="flex items-center gap-2 px-4 py-2 rounded-full font-mono text-xs transition-all hover:scale-105" style="background: rgba(0, 240, 255, 0.08); border: 1px solid rgba(0, 240, 255, 0.15); color: var(--accent-cyan);">
+            <svg id="mute-icon" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+            <svg id="unmute-icon" class="w-4 h-4 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 010 7.07"/><path d="M19.07 4.93a10 10 0 010 14.14"/></svg>
+            <span id="mute-text">Unmute</span>
+          </button>
+          <span class="font-mono text-xs hidden sm:inline" style="color: var(--text-muted);">⏱ 4:54 – 5:54 · looping</span>
+        </div>
+
+        <!-- Bottom bar (TV footer) -->
+        <div class="flex items-center justify-between px-6 py-3" style="background: rgba(0, 240, 255, 0.04); border-top: 1px solid rgba(0, 240, 255, 0.08);">
+          <span class="font-mono text-xs" style="color: var(--text-muted);">📡 SIGNAL: STRONG</span>
+          <div class="flex items-center gap-4">
+            <span class="font-mono text-xs" style="color: var(--text-muted);">HD 1080p</span>
+            <span class="font-mono text-xs px-2 py-0.5 rounded" style="background: rgba(0, 240, 255, 0.08); color: var(--accent-cyan);">YouTube</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- TV Stand / Reflection -->
+      <div class="flex justify-center mt-0">
+        <div class="w-32 h-4 rounded-b-xl" style="background: linear-gradient(180deg, rgba(0, 240, 255, 0.1), transparent);"></div>
+      </div>
+      <div class="flex justify-center -mt-1">
+        <div class="w-48 h-2 rounded-full" style="background: rgba(0, 240, 255, 0.05);"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ═══════════════ SKILLS ═══════════════ -->
 <section id="skills" class="py-24 px-6 grid-bg" style="background: var(--bg-surface);">
   <div class="max-w-6xl mx-auto reveal">
@@ -868,6 +931,81 @@
     btn.disabled = false;
     setTimeout(() => msgEl.classList.add('hidden'), 6000);
   });
+
+  // ══════ YouTube IFrame API — Autoplay Muted, Loop 4:54–5:54 ══════
+  let ytPlayer = null;
+  let clipTimer = null;
+  const CLIP_START = 294;  // 4:54
+  const CLIP_END   = 354;  // 5:54
+
+  // Load YouTube API
+  const ytScript = document.createElement('script');
+  ytScript.src = 'https://www.youtube.com/iframe_api';
+  document.head.appendChild(ytScript);
+
+  window.onYouTubeIframeAPIReady = function() {
+    ytPlayer = new YT.Player('yt-player', {
+      videoId: 'uWtsROhBBrE',
+      playerVars: {
+        autoplay: 1,
+        mute: 1,
+        start: CLIP_START,
+        end: CLIP_END,
+        rel: 0,
+        modestbranding: 1,
+        controls: 0,
+        showinfo: 0,
+        playsinline: 1
+      },
+      events: {
+        onReady: function(event) {
+          event.target.mute();
+          event.target.playVideo();
+          startClipMonitor();
+        },
+        onStateChange: function(event) {
+          // Loop: when video ends, seek back to clip start
+          if (event.data === YT.PlayerState.ENDED || event.data === YT.PlayerState.PAUSED) {
+            if (ytPlayer.getCurrentTime() >= CLIP_END - 1) {
+              ytPlayer.seekTo(CLIP_START, true);
+              ytPlayer.playVideo();
+            }
+          }
+        }
+      }
+    });
+  };
+
+  // Monitor to loop back at CLIP_END
+  function startClipMonitor() {
+    clearInterval(clipTimer);
+    clipTimer = setInterval(function() {
+      if (ytPlayer && ytPlayer.getCurrentTime && ytPlayer.getCurrentTime() >= CLIP_END) {
+        ytPlayer.seekTo(CLIP_START, true);
+        ytPlayer.playVideo();
+      }
+    }, 500);
+  }
+
+  // Mute / Unmute toggle
+  function toggleMute() {
+    if (!ytPlayer) return;
+    const muteIcon = document.getElementById('mute-icon');
+    const unmuteIcon = document.getElementById('unmute-icon');
+    const muteText = document.getElementById('mute-text');
+
+    if (ytPlayer.isMuted()) {
+      ytPlayer.unMute();
+      muteIcon.classList.add('hidden');
+      unmuteIcon.classList.remove('hidden');
+      muteText.textContent = 'Mute';
+    } else {
+      ytPlayer.mute();
+      unmuteIcon.classList.add('hidden');
+      muteIcon.classList.remove('hidden');
+      muteText.textContent = 'Unmute';
+    }
+  }
 
   // Nav background on scroll
   window.addEventListener('scroll', () => {
