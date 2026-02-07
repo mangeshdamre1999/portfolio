@@ -1,0 +1,883 @@
+<!doctype html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mangesh Damre — AI Engineer & Researcher</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    :root {
+      --bg-deep: #06060e;
+      --bg-surface: #0c0c1d;
+      --bg-card: #111128;
+      --accent-cyan: #00f0ff;
+      --accent-violet: #8b5cf6;
+      --accent-magenta: #f472b6;
+      --accent-green: #22d3ee;
+      --text-primary: #e8eaf6;
+      --text-secondary: #7c7fa0;
+      --text-muted: #4a4d6e;
+      --border-subtle: rgba(0, 240, 255, 0.08);
+    }
+    body { font-family: 'Sora', sans-serif; background: var(--bg-deep); color: var(--text-primary); }
+    .font-mono { font-family: 'Space Mono', monospace; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-deep); }
+    ::-webkit-scrollbar-thumb { background: var(--accent-cyan); border-radius: 3px; }
+
+    /* Glowing text */
+    .glow-text { text-shadow: 0 0 40px rgba(0, 240, 255, 0.3); }
+    .glow-violet { text-shadow: 0 0 40px rgba(139, 92, 246, 0.4); }
+
+    /* Gradient text */
+    .grad-text {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-violet), var(--accent-magenta));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .grad-cyan-green {
+      background: linear-gradient(135deg, var(--accent-cyan), #34d399);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Animated grid background */
+    .grid-bg {
+      background-image:
+        linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    /* Card styles */
+    .glass-card {
+      background: linear-gradient(135deg, rgba(17, 17, 40, 0.9), rgba(12, 12, 29, 0.95));
+      border: 1px solid var(--border-subtle);
+      backdrop-filter: blur(10px);
+    }
+    .glass-card:hover {
+      border-color: rgba(0, 240, 255, 0.2);
+      box-shadow: 0 0 30px rgba(0, 240, 255, 0.05), inset 0 1px 0 rgba(0, 240, 255, 0.1);
+    }
+
+    /* Tag pill */
+    .tag {
+      background: rgba(0, 240, 255, 0.06);
+      border: 1px solid rgba(0, 240, 255, 0.12);
+      color: var(--accent-cyan);
+      font-size: 0.75rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      white-space: nowrap;
+    }
+    .tag-violet {
+      background: rgba(139, 92, 246, 0.08);
+      border-color: rgba(139, 92, 246, 0.15);
+      color: #a78bfa;
+    }
+    .tag-magenta {
+      background: rgba(244, 114, 182, 0.08);
+      border-color: rgba(244, 114, 182, 0.15);
+      color: #f9a8d4;
+    }
+    .tag-green {
+      background: rgba(34, 211, 238, 0.06);
+      border-color: rgba(34, 211, 238, 0.12);
+      color: #67e8f9;
+    }
+
+    /* Timeline */
+    .timeline-line {
+      position: absolute;
+      left: 20px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, var(--accent-cyan), var(--accent-violet), transparent);
+    }
+    .timeline-dot {
+      position: absolute;
+      left: 14px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--accent-cyan);
+      box-shadow: 0 0 12px rgba(0, 240, 255, 0.5);
+      z-index: 2;
+    }
+
+    /* Button */
+    .btn-primary {
+      background: linear-gradient(135deg, rgba(0, 240, 255, 0.15), rgba(139, 92, 246, 0.15));
+      border: 1px solid rgba(0, 240, 255, 0.3);
+      color: var(--accent-cyan);
+      transition: all 0.3s;
+    }
+    .btn-primary:hover {
+      background: linear-gradient(135deg, rgba(0, 240, 255, 0.25), rgba(139, 92, 246, 0.25));
+      box-shadow: 0 0 25px rgba(0, 240, 255, 0.2);
+      transform: translateY(-2px);
+    }
+    .btn-glow {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-violet));
+      color: var(--bg-deep);
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+    .btn-glow:hover {
+      box-shadow: 0 0 30px rgba(0, 240, 255, 0.4);
+      transform: translateY(-2px);
+    }
+
+    /* Skill bar */
+    .skill-bar-bg { background: rgba(0, 240, 255, 0.06); }
+    .skill-bar-fill {
+      background: linear-gradient(90deg, var(--accent-cyan), var(--accent-violet));
+      box-shadow: 0 0 8px rgba(0, 240, 255, 0.3);
+    }
+
+    /* Floating particles */
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: float-particle linear infinite;
+    }
+    @keyframes float-particle {
+      0% { transform: translateY(0) translateX(0); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
+    }
+
+    /* Section fade-in */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Scanline effect on hero */
+    .scanlines::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 240, 255, 0.01) 2px,
+        rgba(0, 240, 255, 0.01) 4px
+      );
+      pointer-events: none;
+    }
+
+    /* Nav blur */
+    nav {
+      background: rgba(6, 6, 14, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+
+    /* Smooth scroll */
+    html { scroll-behavior: smooth; }
+
+    /* Project card hover icon */
+    .project-icon { transition: transform 0.3s, filter 0.3s; }
+    .glass-card:hover .project-icon { transform: scale(1.1); filter: drop-shadow(0 0 8px rgba(0, 240, 255, 0.4)); }
+
+    /* Responsive mobile menu */
+    .mobile-menu { display: none; }
+    .mobile-menu.open { display: flex; }
+  </style>
+</head>
+<body class="h-full overflow-x-hidden">
+
+<!-- ═══════════════ NAVIGATION ═══════════════ -->
+<nav class="fixed top-0 left-0 right-0 z-50 border-b border-[rgba(0,240,255,0.06)]">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+    <a href="#" class="font-mono text-xl font-bold tracking-tight" style="color: var(--accent-cyan);">
+      &lt;MD/&gt;
+    </a>
+    <div class="hidden md:flex gap-8 items-center">
+      <a href="#about" class="text-sm hover:text-[var(--accent-cyan)] transition-colors" style="color: var(--text-secondary);">About</a>
+      <a href="#experience" class="text-sm hover:text-[var(--accent-cyan)] transition-colors" style="color: var(--text-secondary);">Experience</a>
+      <a href="#projects" class="text-sm hover:text-[var(--accent-cyan)] transition-colors" style="color: var(--text-secondary);">Projects</a>
+      <a href="#skills" class="text-sm hover:text-[var(--accent-cyan)] transition-colors" style="color: var(--text-secondary);">Skills</a>
+      <a href="#education" class="text-sm hover:text-[var(--accent-cyan)] transition-colors" style="color: var(--text-secondary);">Education</a>
+      <a href="#contact" class="btn-primary px-5 py-2 rounded-full text-sm font-medium">Get in Touch</a>
+    </div>
+    <button id="menu-toggle" class="md:hidden text-[var(--accent-cyan)]" aria-label="Menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+    </button>
+  </div>
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="mobile-menu flex-col md:hidden px-6 pb-6 gap-4 border-t border-[rgba(0,240,255,0.06)]">
+    <a href="#about" class="text-sm py-2" style="color: var(--text-secondary);">About</a>
+    <a href="#experience" class="text-sm py-2" style="color: var(--text-secondary);">Experience</a>
+    <a href="#projects" class="text-sm py-2" style="color: var(--text-secondary);">Projects</a>
+    <a href="#skills" class="text-sm py-2" style="color: var(--text-secondary);">Skills</a>
+    <a href="#education" class="text-sm py-2" style="color: var(--text-secondary);">Education</a>
+    <a href="#contact" class="text-sm py-2" style="color: var(--accent-cyan);">Contact</a>
+  </div>
+</nav>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<header class="relative min-h-screen flex items-center justify-center px-6 pt-20 grid-bg scanlines overflow-hidden">
+  <!-- Ambient glows -->
+  <div class="absolute top-1/4 left-[10%] w-[500px] h-[500px] rounded-full blur-[120px] opacity-20" style="background: var(--accent-cyan);"></div>
+  <div class="absolute bottom-1/4 right-[10%] w-[400px] h-[400px] rounded-full blur-[120px] opacity-15" style="background: var(--accent-violet);"></div>
+
+  <!-- Particles -->
+  <div id="particles" class="absolute inset-0 overflow-hidden pointer-events-none"></div>
+
+  <div class="relative z-10 text-center max-w-4xl">
+    <!-- Status badge -->
+    <div class="mb-8 inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-mono" style="background: rgba(0, 240, 255, 0.06); border: 1px solid rgba(0, 240, 255, 0.15);">
+      <span class="w-2 h-2 rounded-full animate-pulse" style="background: #22c55e; box-shadow: 0 0 8px #22c55e;"></span>
+      <span style="color: var(--text-secondary);">Open to opportunities</span>
+    </div>
+
+    <!-- Name -->
+    <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold mb-4 glow-text tracking-tight leading-[1.1]">
+      <span style="color: var(--text-primary);">Mangesh</span><br>
+      <span class="grad-text">Damre</span>
+    </h1>
+
+    <!-- Title -->
+    <p class="font-mono text-lg md:text-xl mb-3" style="color: var(--accent-cyan);">
+      Associate AI Engineer &amp; Researcher
+    </p>
+    <p class="text-base md:text-lg mb-10 max-w-2xl mx-auto leading-relaxed" style="color: var(--text-secondary);">
+      Building intelligent systems through computer vision, NLP, and distributed AI pipelines — from edge devices to cloud-scale production.
+    </p>
+
+    <!-- CTA -->
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <a href="#contact" class="btn-glow px-8 py-4 rounded-full text-base">Let's Collaborate</a>
+      <a href="#experience" class="btn-primary px-8 py-4 rounded-full text-base font-medium">View My Work →</a>
+    </div>
+
+    <!-- Stats -->
+    <div class="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-2xl mx-auto">
+      <div class="text-center">
+        <div class="text-2xl md:text-3xl font-bold grad-cyan-green font-mono">25+</div>
+        <div class="text-xs mt-1" style="color: var(--text-muted);">AI Tasks Deployed</div>
+      </div>
+      <div class="text-center">
+        <div class="text-2xl md:text-3xl font-bold grad-cyan-green font-mono">90%+</div>
+        <div class="text-xs mt-1" style="color: var(--text-muted);">Pipeline Accuracy</div>
+      </div>
+      <div class="text-center">
+        <div class="text-2xl md:text-3xl font-bold grad-cyan-green font-mono">400+</div>
+        <div class="text-xs mt-1" style="color: var(--text-muted);">Problems Solved</div>
+      </div>
+      <div class="text-center">
+        <div class="text-2xl md:text-3xl font-bold grad-cyan-green font-mono">8.56</div>
+        <div class="text-xs mt-1" style="color: var(--text-muted);">M.Tech CGPA</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce">
+    <span class="text-xs font-mono" style="color: var(--text-muted);">scroll</span>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+  </div>
+</header>
+
+<!-- ═══════════════ ABOUT ═══════════════ -->
+<section id="about" class="py-24 px-6" style="background: var(--bg-deep);">
+  <div class="max-w-6xl mx-auto reveal">
+    <div class="grid md:grid-cols-5 gap-12 items-start">
+      <!-- Left: Visual -->
+      <div class="md:col-span-2 relative">
+        <div class="aspect-square rounded-3xl overflow-hidden relative" style="background: var(--bg-card); border: 1px solid var(--border-subtle);">
+          <img src="assets/mangesh-profile.jpg" alt="Mangesh Damre" class="w-full h-full object-cover object-top" loading="lazy">
+          <!-- Overlay gradient -->
+          <div class="absolute inset-0" style="background: linear-gradient(180deg, transparent 60%, rgba(6, 6, 14, 0.6) 100%);"></div>
+          <!-- Corner accent -->
+          <div class="absolute top-0 right-0 w-16 h-16">
+            <div class="absolute top-2 right-2 w-full h-full border-t-2 border-r-2 rounded-tr-xl" style="border-color: var(--accent-cyan); opacity: 0.3;"></div>
+          </div>
+          <div class="absolute bottom-0 left-0 w-16 h-16">
+            <div class="absolute bottom-2 left-2 w-full h-full border-b-2 border-l-2 rounded-bl-xl" style="border-color: var(--accent-violet); opacity: 0.3;"></div>
+          </div>
+        </div>
+        <!-- Floating badge -->
+        <div class="absolute -bottom-4 -right-4 px-4 py-3 rounded-2xl font-mono text-xs" style="background: linear-gradient(135deg, var(--accent-cyan), var(--accent-violet)); color: var(--bg-deep); font-weight: 700;">
+          M.Tech IIIT-A
+        </div>
+      </div>
+
+      <!-- Right: Content -->
+      <div class="md:col-span-3">
+        <p class="font-mono text-xs mb-3 tracking-widest uppercase" style="color: var(--accent-cyan);">// about me</p>
+        <h2 class="text-4xl md:text-5xl font-bold mb-6" style="color: var(--text-primary);">Mangesh Shravan Damre</h2>
+        <p class="text-base leading-relaxed mb-5" style="color: var(--text-secondary);">
+          I'm an Associate AI Engineer &amp; Researcher at <strong style="color: var(--text-primary);">Centific.AI</strong>, Hyderabad, where I design and deploy distributed AI pipelines for multimodal video content analysis — processing hours of footage in minutes with 90%+ accuracy across 25+ specialized AI tasks.
+        </p>
+        <p class="text-base leading-relaxed mb-5" style="color: var(--text-secondary);">
+          My expertise spans computer vision (YOLO, Vision Transformers, NVIDIA TAO), NLP (Whisper, LLMs, RAG systems), and edge AI deployment (Jetson Nano, TensorRT). I hold an M.Tech from <strong style="color: var(--text-primary);">IIIT Allahabad</strong> where my thesis on multi-level hate speech detection using transformers was recognized by national media.
+        </p>
+        <p class="text-base leading-relaxed mb-8" style="color: var(--text-secondary);">
+          Previously, I built scalable AI integration pipelines at <strong style="color: var(--text-primary);">LTIMindtree</strong> using MuleSoft and containerized ML microservices with Docker.
+        </p>
+
+        <!-- Quick tags -->
+        <div class="flex flex-wrap gap-2">
+          <span class="tag">Computer Vision</span>
+          <span class="tag-violet tag">NLP & LLMs</span>
+          <span class="tag-magenta tag">Edge AI</span>
+          <span class="tag">Distributed Pipelines</span>
+          <span class="tag-green tag">RAG Systems</span>
+          <span class="tag-violet tag">NVIDIA TAO</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ EXPERIENCE ═══════════════ -->
+<section id="experience" class="py-24 px-6 grid-bg" style="background: var(--bg-surface);">
+  <div class="max-w-6xl mx-auto reveal">
+    <p class="font-mono text-xs mb-3 tracking-widest uppercase text-center" style="color: var(--accent-cyan);">// work experience</p>
+    <h2 class="text-4xl md:text-5xl font-bold mb-16 text-center">Where I've Built</h2>
+
+    <div class="relative max-w-4xl mx-auto pl-12">
+      <div class="timeline-line"></div>
+
+      <!-- Experience 1: Centific -->
+      <div class="relative mb-16">
+        <div class="timeline-dot" style="top: 8px;"></div>
+        <div class="glass-card rounded-2xl p-8 ml-8 transition-all duration-300">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
+            <div>
+              <h3 class="text-xl font-bold" style="color: var(--text-primary);">Associate AI Engineer (Researcher)</h3>
+              <p class="font-mono text-sm" style="color: var(--accent-cyan);">CENTIFIC.AI</p>
+            </div>
+            <span class="font-mono text-xs mt-2 sm:mt-0 px-3 py-1 rounded-full" style="background: rgba(0, 240, 255, 0.06); border: 1px solid rgba(0, 240, 255, 0.12); color: var(--text-secondary);">
+              Apr 2025 – Present · Hyderabad
+            </span>
+          </div>
+          <ul class="space-y-3 text-sm leading-relaxed" style="color: var(--text-secondary);">
+            <li class="flex gap-3">
+              <span style="color: var(--accent-cyan);">▸</span>
+              <span>Designed and deployed a <strong style="color: var(--text-primary);">Ray-based distributed AI pipeline</strong> for automated multimodal video content analysis, processing hours of footage in minutes with 90%+ accuracy across 25+ specialized AI tasks.</span>
+            </li>
+            <li class="flex gap-3">
+              <span style="color: var(--accent-cyan);">▸</span>
+              <span>Implemented computer vision modules including <strong style="color: var(--text-primary);">low-light enhancement, dark video colorization, 360° video unwarping, object detection (YOLO11), face/age/pet/household/architecture detection</strong> with Vision Transformers, scene understanding via Cosmos-Reason1-7B, and motion quality assessment.</span>
+            </li>
+            <li class="flex gap-3">
+              <span style="color: var(--accent-cyan);">▸</span>
+              <span>Built <strong style="color: var(--text-primary);">audio intelligence systems</strong> — real-time speech transcription (Whisper), speaker diarization (pyannote), PII detection (Presidio), and LLM-powered sensitive content classification.</span>
+            </li>
+            <li class="flex gap-3">
+              <span style="color: var(--accent-cyan);">▸</span>
+              <span>Developed scalable CV pipelines using <strong style="color: var(--text-primary);">NVIDIA TAO Toolkit</strong> with Faster R-CNN, DetectNet V2, EfficientDet V2, DINO, and Grounding DINO for real-time object detection.</span>
+            </li>
+            <li class="flex gap-3">
+              <span style="color: var(--accent-cyan);">▸</span>
+              <span>Developed <strong style="color: var(--text-primary);">GPU-accelerated architecture</strong> with dynamic resource allocation (0.04–1.0 GPU per task).</span>
+            </li>
+            <li class="flex gap-3">
+              <span style="color: var(--accent-cyan);">▸</span>
+              <span>Integrated automated <strong style="color: var(--text-primary);">Label Studio task generation, SharePoint Excel reporting, and Azure Blob Storage</strong> workflows for production content moderation and compliance.</span>
+            </li>
+          </ul>
+          <div class="flex flex-wrap gap-2 mt-5">
+            <span class="tag">Ray</span>
+            <span class="tag">YOLO11</span>
+            <span class="tag-violet tag">Vision Transformers</span>
+            <span class="tag">Whisper</span>
+            <span class="tag-magenta tag">NVIDIA TAO</span>
+            <span class="tag-green tag">Azure</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Experience 2: LTIMindtree -->
+      <div class="relative mb-8">
+        <div class="timeline-dot" style="top: 8px; background: var(--accent-violet); box-shadow: 0 0 12px rgba(139, 92, 246, 0.5);"></div>
+        <div class="glass-card rounded-2xl p-8 ml-8 transition-all duration-300">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
+            <div>
+              <h3 class="text-xl font-bold" style="color: var(--text-primary);">Software Engineer – AI Integration</h3>
+              <p class="font-mono text-sm" style="color: var(--accent-violet);">LTIMINDTREE</p>
+            </div>
+            <span class="font-mono text-xs mt-2 sm:mt-0 px-3 py-1 rounded-full" style="background: rgba(139, 92, 246, 0.08); border: 1px solid rgba(139, 92, 246, 0.15); color: var(--text-secondary);">
+              Jul 2022 – Aug 2023 · Mumbai
+            </span>
+          </div>
+          <ul class="space-y-3 text-sm leading-relaxed" style="color: var(--text-secondary);">
+            <li class="flex gap-3">
+              <span style="color: var(--accent-violet);">▸</span>
+              <span>Built and maintained scalable integration pipelines for AI-enabled APIs using <strong style="color: var(--text-primary);">MuleSoft Anypoint Platform and Boomi Atmosphere</strong>, facilitating seamless communication between cloud-based data systems.</span>
+            </li>
+            <li class="flex gap-3">
+              <span style="color: var(--accent-violet);">▸</span>
+              <span>Deployed AI services for real-time analytics and customer insights; <strong style="color: var(--text-primary);">optimized service response time by 20%</strong> via caching and streamlining API logic.</span>
+            </li>
+            <li class="flex gap-3">
+              <span style="color: var(--accent-violet);">▸</span>
+              <span>Led <strong style="color: var(--text-primary);">containerization of ML microservices using Docker</strong>, improving deployment speed and resource efficiency.</span>
+            </li>
+          </ul>
+          <div class="flex flex-wrap gap-2 mt-5">
+            <span class="tag-violet tag">MuleSoft</span>
+            <span class="tag">Docker</span>
+            <span class="tag-green tag">REST APIs</span>
+            <span class="tag-magenta tag">Boomi</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ PROJECTS ═══════════════ -->
+<section id="projects" class="py-24 px-6" style="background: var(--bg-deep);">
+  <div class="max-w-6xl mx-auto reveal">
+    <p class="font-mono text-xs mb-3 tracking-widest uppercase text-center" style="color: var(--accent-cyan);">// featured projects</p>
+    <h2 class="text-4xl md:text-5xl font-bold mb-16 text-center">What I've Built</h2>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- Project 1: RAG System -->
+      <div class="glass-card rounded-2xl p-7 transition-all duration-300 flex flex-col">
+        <div class="w-14 h-14 rounded-xl flex items-center justify-center mb-5 project-icon" style="background: linear-gradient(135deg, rgba(0, 240, 255, 0.15), rgba(139, 92, 246, 0.15)); border: 1px solid rgba(0, 240, 255, 0.2);">
+          <span class="text-2xl">🤖</span>
+        </div>
+        <h3 class="text-lg font-bold mb-2" style="color: var(--text-primary);">RAG-Powered Agentic AI System</h3>
+        <p class="text-sm leading-relaxed mb-4 flex-1" style="color: var(--text-secondary);">
+          Agentic RAG system with multi-step reasoning, tool use, and memory for intelligent document retrieval. Integrated FAISS/ChromaDB with LangChain agents — achieving 85%+ accuracy improvement over baseline retrieval.
+        </p>
+        <div class="flex flex-wrap gap-2">
+          <span class="tag">LangChain</span>
+          <span class="tag">FAISS</span>
+          <span class="tag-violet tag">ChromaDB</span>
+          <span class="tag-magenta tag">GPT-4</span>
+        </div>
+      </div>
+
+      <!-- Project 2: Hate Speech -->
+      <div class="glass-card rounded-2xl p-7 transition-all duration-300 flex flex-col">
+        <div class="w-14 h-14 rounded-xl flex items-center justify-center mb-5 project-icon" style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(244, 114, 182, 0.15)); border: 1px solid rgba(139, 92, 246, 0.2);">
+          <span class="text-2xl">📝</span>
+        </div>
+        <h3 class="text-lg font-bold mb-2" style="color: var(--text-primary);">Multi-Level Hate Speech Detection</h3>
+        <p class="text-xs font-mono mb-2" style="color: var(--accent-magenta);">M.Tech Thesis · Media Recognized</p>
+        <p class="text-sm leading-relaxed mb-4 flex-1" style="color: var(--text-secondary);">
+          Proposed a weighted fusion approach to detect hate speech, sexism, and cyberbullying in low-resource Indian languages using the L3Cube MahaHate dataset. Achieved 87% accuracy. Recognized by ABP News and national media.
+        </p>
+        <div class="flex flex-wrap gap-2">
+          <span class="tag-violet tag">Transformers</span>
+          <span class="tag">mBERT</span>
+          <span class="tag-magenta tag">NLP</span>
+          <span class="tag-green tag">Python</span>
+        </div>
+      </div>
+
+      <!-- Project 3: Edge AI -->
+      <div class="glass-card rounded-2xl p-7 transition-all duration-300 flex flex-col">
+        <div class="w-14 h-14 rounded-xl flex items-center justify-center mb-5 project-icon" style="background: linear-gradient(135deg, rgba(34, 211, 238, 0.15), rgba(0, 240, 255, 0.15)); border: 1px solid rgba(34, 211, 238, 0.2);">
+          <span class="text-2xl">⚡</span>
+        </div>
+        <h3 class="text-lg font-bold mb-2" style="color: var(--text-primary);">Edge AI Object Detection</h3>
+        <p class="text-sm leading-relaxed mb-4 flex-1" style="color: var(--text-secondary);">
+          Optimized and deployed lightweight models (MobileNetV1/V2) on NVIDIA Jetson Nano for real-time object detection in IoT environments. Achieved GPU-accelerated inference with TensorRT and model quantization.
+        </p>
+        <div class="flex flex-wrap gap-2">
+          <span class="tag">TF Lite</span>
+          <span class="tag-violet tag">TensorRT</span>
+          <span class="tag-magenta tag">COCO</span>
+          <span class="tag-green tag">Jetson Nano</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ SKILLS ═══════════════ -->
+<section id="skills" class="py-24 px-6 grid-bg" style="background: var(--bg-surface);">
+  <div class="max-w-6xl mx-auto reveal">
+    <p class="font-mono text-xs mb-3 tracking-widest uppercase text-center" style="color: var(--accent-cyan);">// technical arsenal</p>
+    <h2 class="text-4xl md:text-5xl font-bold mb-16 text-center">Skills &amp; Tools</h2>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- Languages -->
+      <div class="glass-card rounded-2xl p-7 transition-all duration-300">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background: rgba(0, 240, 255, 0.1);">
+            <span class="text-lg">⌨️</span>
+          </div>
+          <h3 class="font-bold" style="color: var(--text-primary);">Languages</h3>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <span class="tag">Python</span>
+          <span class="tag">C++</span>
+          <span class="tag">SQL</span>
+          <span class="tag">Bash</span>
+        </div>
+      </div>
+
+      <!-- ML & DL -->
+      <div class="glass-card rounded-2xl p-7 transition-all duration-300">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background: rgba(139, 92, 246, 0.1);">
+            <span class="text-lg">🧠</span>
+          </div>
+          <h3 class="font-bold" style="color: var(--text-primary);">ML &amp; Deep Learning</h3>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <span class="tag-violet tag">CNN</span>
+          <span class="tag-violet tag">DNN</span>
+          <span class="tag-violet tag">Transformers</span>
+          <span class="tag-violet tag">LLMs</span>
+          <span class="tag-violet tag">Vision Transformers</span>
+          <span class="tag-violet tag">Diffusion Models</span>
+          <span class="tag-violet tag">RAG</span>
+          <span class="tag-violet tag">Agentic AI</span>
+        </div>
+      </div>
+
+      <!-- Frameworks -->
+      <div class="glass-card rounded-2xl p-7 transition-all duration-300">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background: rgba(244, 114, 182, 0.1);">
+            <span class="text-lg">📦</span>
+          </div>
+          <h3 class="font-bold" style="color: var(--text-primary);">Frameworks &amp; Libraries</h3>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <span class="tag-magenta tag">Ray</span>
+          <span class="tag-magenta tag">PyTorch</span>
+          <span class="tag-magenta tag">TensorFlow</span>
+          <span class="tag-magenta tag">ONNX</span>
+          <span class="tag-magenta tag">Hugging Face</span>
+          <span class="tag-magenta tag">LangChain</span>
+          <span class="tag-magenta tag">LlamaIndex</span>
+          <span class="tag-magenta tag">OpenCV</span>
+          <span class="tag-magenta tag">Dlib</span>
+          <span class="tag-magenta tag">PySpark</span>
+          <span class="tag-magenta tag">vLLM</span>
+        </div>
+      </div>
+
+      <!-- Tools & Platforms -->
+      <div class="glass-card rounded-2xl p-7 transition-all duration-300">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background: rgba(34, 211, 238, 0.1);">
+            <span class="text-lg">🛠️</span>
+          </div>
+          <h3 class="font-bold" style="color: var(--text-primary);">Tools &amp; Platforms</h3>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <span class="tag-green tag">Docker</span>
+          <span class="tag-green tag">NVIDIA TAO</span>
+          <span class="tag-green tag">Azure Cloud</span>
+          <span class="tag-green tag">Groq API</span>
+          <span class="tag-green tag">FFmpeg</span>
+          <span class="tag-green tag">Label Studio</span>
+          <span class="tag-green tag">FAISS</span>
+          <span class="tag-green tag">ChromaDB</span>
+        </div>
+      </div>
+
+      <!-- Deployment -->
+      <div class="glass-card rounded-2xl p-7 transition-all duration-300">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background: rgba(0, 240, 255, 0.1);">
+            <span class="text-lg">🚀</span>
+          </div>
+          <h3 class="font-bold" style="color: var(--text-primary);">Deployment &amp; Backend</h3>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <span class="tag">FastAPI</span>
+          <span class="tag">Flask</span>
+          <span class="tag">Git</span>
+          <span class="tag">Heroku</span>
+          <span class="tag">Azure Blob Storage</span>
+        </div>
+      </div>
+
+      <!-- Expertise Areas -->
+      <div class="glass-card rounded-2xl p-7 transition-all duration-300">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background: rgba(139, 92, 246, 0.1);">
+            <span class="text-lg">🎯</span>
+          </div>
+          <h3 class="font-bold" style="color: var(--text-primary);">Domain Expertise</h3>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <span class="tag-violet tag">Computer Vision</span>
+          <span class="tag-violet tag">NLP</span>
+          <span class="tag-violet tag">Edge AI</span>
+          <span class="tag-violet tag">MLOps</span>
+          <span class="tag-violet tag">Audio Intelligence</span>
+          <span class="tag-violet tag">Content Moderation</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ EDUCATION ═══════════════ -->
+<section id="education" class="py-24 px-6" style="background: var(--bg-deep);">
+  <div class="max-w-6xl mx-auto reveal">
+    <p class="font-mono text-xs mb-3 tracking-widest uppercase text-center" style="color: var(--accent-cyan);">// education</p>
+    <h2 class="text-4xl md:text-5xl font-bold mb-16 text-center">Academic Background</h2>
+
+    <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+      <!-- IIIT Allahabad -->
+      <div class="glass-card rounded-2xl p-8 transition-all duration-300 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-32 h-32 rounded-full blur-[80px] opacity-10" style="background: var(--accent-cyan);"></div>
+        <div class="relative">
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-5" style="background: rgba(0, 240, 255, 0.1); border: 1px solid rgba(0, 240, 255, 0.15);">
+            <span class="text-xl">🎓</span>
+          </div>
+          <h3 class="text-xl font-bold mb-1" style="color: var(--text-primary);">Master of Technology</h3>
+          <p class="font-mono text-sm mb-1" style="color: var(--accent-cyan);">Information Technology</p>
+          <p class="text-sm mb-3" style="color: var(--text-secondary);">Indian Institute of Information Technology, Allahabad</p>
+          <p class="text-sm" style="color: var(--text-muted);">Prayagraj, India · 2023 – 2025</p>
+          <div class="mt-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full" style="background: rgba(0, 240, 255, 0.06); border: 1px solid rgba(0, 240, 255, 0.12);">
+            <span class="font-mono text-sm font-bold" style="color: var(--accent-cyan);">CGPA: 8.56</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRMIT&R -->
+      <div class="glass-card rounded-2xl p-8 transition-all duration-300 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-32 h-32 rounded-full blur-[80px] opacity-10" style="background: var(--accent-violet);"></div>
+        <div class="relative">
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-5" style="background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.15);">
+            <span class="text-xl">🎓</span>
+          </div>
+          <h3 class="text-xl font-bold mb-1" style="color: var(--text-primary);">Bachelor of Engineering</h3>
+          <p class="font-mono text-sm mb-1" style="color: var(--accent-violet);">Information Technology</p>
+          <p class="text-sm mb-3" style="color: var(--text-secondary);">Prof. Ram Meghe Institute of Technology and Research</p>
+          <p class="text-sm" style="color: var(--text-muted);">Amravati, India · 2019 – 2022</p>
+          <div class="mt-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full" style="background: rgba(139, 92, 246, 0.08); border: 1px solid rgba(139, 92, 246, 0.15);">
+            <span class="font-mono text-sm font-bold" style="color: #a78bfa;">CGPA: 9.21</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ ACHIEVEMENTS ═══════════════ -->
+<section class="py-24 px-6 grid-bg" style="background: var(--bg-surface);">
+  <div class="max-w-6xl mx-auto reveal">
+    <p class="font-mono text-xs mb-3 tracking-widest uppercase text-center" style="color: var(--accent-cyan);">// achievements</p>
+    <h2 class="text-4xl md:text-5xl font-bold mb-16 text-center">Recognition &amp; Accomplishments</h2>
+
+    <div class="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+      <div class="glass-card rounded-2xl p-7 text-center transition-all duration-300">
+        <div class="text-4xl mb-4">🏆</div>
+        <h3 class="font-bold mb-2" style="color: var(--text-primary);">Media Recognition</h3>
+        <p class="text-sm" style="color: var(--text-secondary);">M.Tech thesis featured in ABP News, Times of India, and Hindustan</p>
+      </div>
+      <div class="glass-card rounded-2xl p-7 text-center transition-all duration-300">
+        <div class="text-4xl mb-4">💻</div>
+        <h3 class="font-bold mb-2" style="color: var(--text-primary);">400+ Problems Solved</h3>
+        <p class="text-sm" style="color: var(--text-secondary);">Across Codeforces, LeetCode, and GeeksforGeeks</p>
+      </div>
+      <div class="glass-card rounded-2xl p-7 text-center transition-all duration-300">
+        <div class="text-4xl mb-4">🎯</div>
+        <h3 class="font-bold mb-2" style="color: var(--text-primary);">90%+ Accuracy</h3>
+        <p class="text-sm" style="color: var(--text-secondary);">Production AI pipeline across 25+ specialized tasks</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ CONTACT ═══════════════ -->
+<section id="contact" class="py-24 px-6" style="background: var(--bg-deep);">
+  <div class="max-w-4xl mx-auto reveal">
+    <p class="font-mono text-xs mb-3 tracking-widest uppercase text-center" style="color: var(--accent-cyan);">// get in touch</p>
+    <h2 class="text-4xl md:text-5xl font-bold mb-4 text-center">Let's Build Something</h2>
+    <p class="text-center text-base mb-12" style="color: var(--text-secondary);">Interested in AI solutions, collaboration, or just want to connect? Reach out.</p>
+
+    <!-- Contact Cards -->
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
+      <a href="mailto:mangeshdamre2001@gmail.com" class="glass-card rounded-2xl p-6 text-center transition-all duration-300 hover:scale-105 block">
+        <div class="text-2xl mb-3">📧</div>
+        <div class="font-mono text-xs mb-1" style="color: var(--accent-cyan);">Email</div>
+        <div class="text-xs break-all" style="color: var(--text-secondary);">mangeshdamre2001@gmail.com</div>
+      </a>
+      <a href="tel:+917709953889" class="glass-card rounded-2xl p-6 text-center transition-all duration-300 hover:scale-105 block">
+        <div class="text-2xl mb-3">📱</div>
+        <div class="font-mono text-xs mb-1" style="color: var(--accent-cyan);">Phone</div>
+        <div class="text-xs" style="color: var(--text-secondary);">+91-7709953889</div>
+      </a>
+      <a href="https://www.linkedin.com/in/mangesh-damre-266a951bb" target="_blank" rel="noopener" class="glass-card rounded-2xl p-6 text-center transition-all duration-300 hover:scale-105 block">
+        <div class="text-2xl mb-3">💼</div>
+        <div class="font-mono text-xs mb-1" style="color: var(--accent-cyan);">LinkedIn</div>
+        <div class="text-xs" style="color: var(--text-secondary);">mangesh-damre</div>
+      </a>
+      <a href="https://github.com/mangeshdamre1999" target="_blank" rel="noopener" class="glass-card rounded-2xl p-6 text-center transition-all duration-300 hover:scale-105 block">
+        <div class="text-2xl mb-3">🐙</div>
+        <div class="font-mono text-xs mb-1" style="color: var(--accent-cyan);">GitHub</div>
+        <div class="text-xs" style="color: var(--text-secondary);">mangeshdamre1999</div>
+      </a>
+    </div>
+
+    <!-- Contact Form -->
+    <div class="glass-card rounded-3xl p-8 md:p-12">
+      <!-- ✅ FORMSPREE: Replace YOUR_FORM_ID below with your actual Formspree form ID -->
+      <!-- Get your free ID at: https://formspree.io (sign up → new form → copy ID) -->
+      <form id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" class="space-y-6">
+        <input type="hidden" name="_subject" value="New Portfolio Contact Message!">
+        <input type="text" name="_gotcha" style="display:none"> <!-- spam honeypot -->
+        <div class="grid md:grid-cols-2 gap-6">
+          <div>
+            <label for="name" class="block text-sm font-medium mb-2" style="color: var(--text-secondary);">Name</label>
+            <input type="text" id="name" name="name" placeholder="Your name" required class="w-full px-4 py-3 rounded-xl outline-none focus:ring-2 transition-all text-sm" style="background: rgba(6, 6, 14, 0.8); border: 1px solid var(--border-subtle); color: var(--text-primary); --tw-ring-color: var(--accent-cyan);">
+          </div>
+          <div>
+            <label for="email" class="block text-sm font-medium mb-2" style="color: var(--text-secondary);">Email</label>
+            <input type="email" id="email" name="email" placeholder="your@email.com" required class="w-full px-4 py-3 rounded-xl outline-none focus:ring-2 transition-all text-sm" style="background: rgba(6, 6, 14, 0.8); border: 1px solid var(--border-subtle); color: var(--text-primary); --tw-ring-color: var(--accent-cyan);">
+          </div>
+        </div>
+        <div>
+          <label for="subject" class="block text-sm font-medium mb-2" style="color: var(--text-secondary);">Subject</label>
+          <input type="text" id="subject" name="subject" placeholder="What's this about?" class="w-full px-4 py-3 rounded-xl outline-none focus:ring-2 transition-all text-sm" style="background: rgba(6, 6, 14, 0.8); border: 1px solid var(--border-subtle); color: var(--text-primary); --tw-ring-color: var(--accent-cyan);">
+        </div>
+        <div>
+          <label for="message" class="block text-sm font-medium mb-2" style="color: var(--text-secondary);">Message</label>
+          <textarea id="message" name="message" rows="5" placeholder="Tell me about your project or idea..." required class="w-full px-4 py-3 rounded-xl outline-none focus:ring-2 transition-all resize-none text-sm" style="background: rgba(6, 6, 14, 0.8); border: 1px solid var(--border-subtle); color: var(--text-primary); --tw-ring-color: var(--accent-cyan);"></textarea>
+        </div>
+        <button type="submit" id="submit-btn" class="btn-glow w-full py-4 rounded-xl font-semibold text-base">
+          Send Message →
+        </button>
+      </form>
+      <p id="form-message" class="mt-4 text-sm text-center hidden"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer class="py-8 px-6 border-t" style="background: var(--bg-deep); border-color: var(--border-subtle);">
+  <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+    <div class="font-mono text-xs" style="color: var(--text-muted);">
+      © 2025 Mangesh Damre. Built with passion for AI.
+    </div>
+    <div class="flex gap-6">
+      <a href="https://www.linkedin.com/in/mangesh-damre-266a951bb" target="_blank" rel="noopener" class="w-10 h-10 rounded-full flex items-center justify-center transition-all hover:scale-110" style="background: rgba(0, 240, 255, 0.06); border: 1px solid var(--border-subtle);" aria-label="LinkedIn">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="var(--accent-cyan)"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a>
+      <a href="https://github.com/mangeshdamre1999" target="_blank" rel="noopener" class="w-10 h-10 rounded-full flex items-center justify-center transition-all hover:scale-110" style="background: rgba(0, 240, 255, 0.06); border: 1px solid var(--border-subtle);" aria-label="GitHub">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="var(--accent-cyan)"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+      </a>
+      <a href="mailto:mangeshdamre2001@gmail.com" class="w-10 h-10 rounded-full flex items-center justify-center transition-all hover:scale-110" style="background: rgba(0, 240, 255, 0.06); border: 1px solid var(--border-subtle);" aria-label="Email">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Mobile menu toggle
+  document.getElementById('menu-toggle').addEventListener('click', () => {
+    document.getElementById('mobile-menu').classList.toggle('open');
+  });
+  document.querySelectorAll('#mobile-menu a').forEach(link => {
+    link.addEventListener('click', () => {
+      document.getElementById('mobile-menu').classList.remove('open');
+    });
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Particles
+  const particleContainer = document.getElementById('particles');
+  function createParticle() {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    const size = Math.random() * 3 + 1;
+    const colors = ['var(--accent-cyan)', 'var(--accent-violet)', 'var(--accent-magenta)'];
+    particle.style.cssText = `
+      width: ${size}px; height: ${size}px;
+      background: ${colors[Math.floor(Math.random() * colors.length)]};
+      left: ${Math.random() * 100}%;
+      bottom: -10px;
+      animation-duration: ${Math.random() * 15 + 10}s;
+      opacity: ${Math.random() * 0.5 + 0.2};
+    `;
+    particleContainer.appendChild(particle);
+    setTimeout(() => particle.remove(), 25000);
+  }
+  setInterval(createParticle, 800);
+
+  // Contact form — Formspree AJAX
+  document.getElementById('contact-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const msgEl = document.getElementById('form-message');
+    const btn = document.getElementById('submit-btn');
+    
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+
+    try {
+      const response = await fetch(this.action, {
+        method: 'POST',
+        body: new FormData(this),
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (response.ok) {
+        msgEl.textContent = '✅ Message sent! I\'ll get back to you soon.';
+        msgEl.style.color = '#22c55e';
+        this.reset();
+      } else {
+        msgEl.textContent = '❌ Something went wrong. Please email me directly.';
+        msgEl.style.color = '#ef4444';
+      }
+    } catch (err) {
+      msgEl.textContent = '❌ Network error. Please try again or email me directly.';
+      msgEl.style.color = '#ef4444';
+    }
+
+    msgEl.classList.remove('hidden');
+    btn.textContent = 'Send Message →';
+    btn.disabled = false;
+    setTimeout(() => msgEl.classList.add('hidden'), 6000);
+  });
+
+  // Nav background on scroll
+  window.addEventListener('scroll', () => {
+    const nav = document.querySelector('nav');
+    if (window.scrollY > 50) {
+      nav.style.borderColor = 'rgba(0, 240, 255, 0.12)';
+    } else {
+      nav.style.borderColor = 'rgba(0, 240, 255, 0.06)';
+    }
+  });
+</script>
+</body>
+</html>
